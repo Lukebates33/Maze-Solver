@@ -1,7 +1,7 @@
 import java.util.*;
 import java.io.*;
 
-public class Lab10 {
+public class MazeSolver {
     public static void main(String[] args) {
         File file = new File("C:\\Users\\lukeb\\Downloads\\Maze2.txt");
         int lives = 200;
@@ -15,19 +15,19 @@ public class Lab10 {
                 input[i] = scan.nextLine(); // read the maze
             }
             posX = Integer.parseInt(scan.nextLine()); // this is where you appear
-            posY = Integer.parseInt(scan.nextLine()); //
+            posY = Integer.parseInt(scan.nextLine()); // scans in two numbers with the maze that are your coordinates
             scan.close();
         } catch (Exception e) {
             System.err.println(e);
         }
 
-        boolean[][] maze = new boolean[20][20];
+        boolean[][] maze = new boolean[20][20];  // loop through maze 
         for (int i = 0; i < 20; i++) {
             for (int j = 0; j < 20; j++) {
                 if (input[i].charAt(j) == 'X') {
-                    maze[i][j] = false; // theres a wall
+                    maze[i][j] = false; // theres a wall, mark as not passable
                 } else {
-                    maze[i][j] = true; // theres a space
+                    maze[i][j] = true; // theres a space, a space that can be traversed
                 }
             }
         }
@@ -51,7 +51,7 @@ public class Lab10 {
             try {
                 Thread.sleep(100);
             } catch (InterruptedException e) {
-                // Handle interrupted exception (if necessary)
+                // handle interrupted exception (if necessary)
                 e.printStackTrace();
             }
 
@@ -71,7 +71,7 @@ public class Lab10 {
             lives--;
 
             if (posY % 19 == 0 || posX % 19 == 0) { // found a way out
-                System.out.println("You found the exit at: " + posX + "," + posY);
+                System.out.println("You found the exit at: " + posX + "," + posY); // print out coordinates of the exit
                 System.exit(0);
             }
         }
@@ -91,7 +91,7 @@ class Brain {
         moveStack = new Stack<>();
     }
 
-    // Depth First Search - based decision making to explore deeper paths first
+    // Depth First Search, based decision making to explore deeper paths first
     public String getMove(boolean[][] maze, int posX, int posY) {
         visited[posX][posY] = 1; // mark the current position as visited
 
@@ -101,7 +101,7 @@ class Brain {
         boolean east = posY < cols - 1 && maze[posX][posY + 1] && visited[posX][posY + 1] == 0;
         boolean west = posY > 0 && maze[posX][posY - 1] && visited[posX][posY - 1] == 0;
 
-        // prioritize directions in Depth First Search style: try unvisited directions first
+        // prioritize directions in Depth First Search style, try unvisited directions first
         if (east) {
             moveStack.push("east");
             return "east";
@@ -132,6 +132,6 @@ class Brain {
             }
         }
 
-        return "north"; // If no other option, go north
+        return "north"; // if no other option, go north
     }
 }
